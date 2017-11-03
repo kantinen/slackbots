@@ -1,7 +1,6 @@
-package main
+package kantinepris
 
 import (
-  "fmt"
   "strconv"
 )
 
@@ -82,12 +81,4 @@ func (m Money) NayaxPrice() Money {
 
 func (m Money) MobilePayPrice() Money {
   return m.SagioPrice().AddInt(75).Normalize()
-}
-
-
-func main() {
-  m := Money { 1000, 0 }
-  fmt.Printf("Sagio: %s\n", m.SagioPrice())
-  fmt.Printf("Nayax: %s\n", m.NayaxPrice())
-  fmt.Printf("MobilePay: %s\n", m.MobilePayPrice())
 }
