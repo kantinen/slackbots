@@ -19,7 +19,7 @@ func main() {
     go rtm.ManageConnection()
 
     for msg := range rtm.IncomingEvents {
-        fmt.Print("Event Received: ")
+//      fmt.Print("Event Received: ")
         switch ev := msg.Data.(type) {
         case *slack.HelloEvent:
             // Ignore hello
@@ -32,20 +32,10 @@ func main() {
 
         case *slack.MessageEvent:
             if len(ev.Text) >= 9 && ev.Text[0:9] == "!set cost" {
-                handleSet(ev)
+                    handleSet(ev.Text[10:])
             } else if len(ev.Text) >= 11 && ev.Text[0:11] == "!get prices" {
-                handleGet(ev)
+                    handleGet(ev.Text[11:])
             }
-
-
-        case *slack.PresenceChangeEvent:
-            fmt.Printf("Presence Change: %v\n", ev)
-
-        case *slack.LatencyReport:
-            fmt.Printf("Current latency: %v\n", ev.Value)
-
-        case *slack.RTMError:
-            fmt.Printf("Error: %s\n", ev.Error())
 
         case *slack.InvalidAuthEvent:
             fmt.Printf("Invalid credentials")
@@ -62,12 +52,12 @@ func main() {
     cmd.Run()
 }
 
-func handleSet(ev *slack.MessageEvent) {
-    fmt.Println("Ran handleSet\n\n")
+func handleSet(a string) {
+    fmt.Printf("Ran handleSet %s\n\n", a)
     return
 }
 
-func handleGet(ev *slack.MessageEvent) {
-    fmt.Println("Ran handleGet\n\n")
+func handleGet(a string) {
+    fmt.Printf("Ran handleGet %s\n\n", a)
     return
 }
