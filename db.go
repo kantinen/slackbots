@@ -51,7 +51,7 @@ type Costs struct {
 
 type Db map[string]Product
 
-func read_db() (Db, error) {
+func readDb() (Db, error) {
 	file_path := path.Join(os.Getenv("KANTINE_DB"), PRODUCT_DB_FILE)
 	file, err := os.Open(file_path)
 
@@ -75,7 +75,7 @@ func read_db() (Db, error) {
 	return products, nil
 }
 
-func write_db(products Db) error {
+func writeDb(products Db) error {
 	file_path := path.Join(os.Getenv("KANTINE_DB"), PRODUCT_DB_FILE)
 	file, err := os.Open(file_path)
 
@@ -92,8 +92,8 @@ func write_db(products Db) error {
 	return err
 }
 
-func get_product_price(name string) (Costs, error) {
-	products, err := read_db()
+func getProductPrice(name string) (Costs, error) {
+	products, err := readDb()
 	if err != nil {
 		return Costs{}, err
 	}
@@ -113,8 +113,8 @@ func get_product_price(name string) (Costs, error) {
 	return costs, nil
 }
 
-func set_product_price(name string, cost int) error {
-	products, err := read_db()
+func setProductPrice(name string, cost int) error {
+	products, err := readDb()
 	if err != nil {
 		return err
 	}
@@ -126,5 +126,5 @@ func set_product_price(name string, cost int) error {
 
 	// TODO: Calculate other prices
 	product.Cost = cost
-	return write_db(products)
+	return writeDb(products)
 }
