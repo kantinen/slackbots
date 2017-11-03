@@ -1,1 +1,7 @@
+# Vim Files <3
+*.swp
+*.swo
+
+# build and runtime outputs
 slackbots
+out.txt

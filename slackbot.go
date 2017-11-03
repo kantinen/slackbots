@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-    api := slack.New("YOUR TOKEN HERE")
+    api := slack.New(os.Getenv("SLACK_API_TOKEN"))
     logger := log.New(os.Stdout, "slack-bot: ", log.Lshortfile|log.LstdFlags)
     slack.SetLogger(logger)
     api.SetDebug(true)
@@ -53,6 +53,6 @@ func main() {
         }
     }
     // To run the update script
-    cmd := exec.Command("./update.sh")
+    cmd := exec.Command("./update.sh", "username", "command")
     cmd.Run()
 }
