@@ -1,18 +1,15 @@
 package main
 
 import (
-//    "fmt"
-//    "log"
-//    "os"
+    "fmt"
+    "log"
+    "os"
     "os/exec"
 
-//    "github.com/nlopes/slack"
+    "github.com/nlopes/slack"
 )
 
 func main() {
-    cmd := exec.Command("./update.sh")
-    cmd.Run()
-    /*
     api := slack.New("YOUR TOKEN HERE")
     logger := log.New(os.Stdout, "slack-bot: ", log.Lshortfile|log.LstdFlags)
     slack.SetLogger(logger)
@@ -55,5 +52,7 @@ func main() {
             // fmt.Printf("Unexpected: %v\n", msg.Data)
         }
     }
-    */
+    // To run the update script
+    cmd := exec.Command("./update.sh")
+    cmd.Run()
 }
