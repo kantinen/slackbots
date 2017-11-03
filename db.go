@@ -140,7 +140,11 @@ func setProductPrice(name string, cost int) error {
 		return ProductError{name: name, cause: PRODUCT_MISSING}
 	}
 
-	// TODO: Calculate other prices
 	product.Cost = cost
+	money := Øre(cost)
+	product.SagioPrice = money.SagioPrice().n
+	product.NayaxPrice = money.NayaxPrice().n
+	product.MobilepayPrice = money.MobilePayPrice().n
+
 	return writeDb(products)
 }
