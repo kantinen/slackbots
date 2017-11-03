@@ -1,4 +1,4 @@
-package main
+package kantinepris
 
 import (
   "strconv"
@@ -7,6 +7,10 @@ import (
 type Money struct {
   n int
   err int
+}
+
+func Øre(øre int) Money {
+  return Money { øre, 0 }
 }
 
 func (m Money) String() string {
