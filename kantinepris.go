@@ -29,12 +29,7 @@ func (m Money) String() string {
     s = s[len(s)-2:len(s)]
   }
 
-  suffix := ""
-  if (m.err != 0) {
-    suffix = " (error: " + strconv.Itoa(n) + ")"
-  }
-
-  return prefix + s + suffix
+  return prefix + s
 }
 
 func (m Money) AddMoney(n Money) Money {
