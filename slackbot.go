@@ -53,6 +53,6 @@ func main() {
         }
     }
     // To run the update script
-    cmd := exec.Command("./update.sh")
+    cmd := exec.Command("./update.sh", "username", "command")
     cmd.Run()
 }
