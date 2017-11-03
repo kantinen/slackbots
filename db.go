@@ -10,6 +10,8 @@ import (
 
 const PRODUCT_DB_FILE = "products.yaml"
 
+const MINIMUM_VALID_PRICE = 100 // 1 kr
+
 const (
 	Ven     = "ven"
 	Manatee = "Manatee"
@@ -20,6 +22,7 @@ const (
 
 const (
 	PRODUCT_MISSING = "Product missing"
+	INVALID_PRICE   = "Invalid price"
 )
 
 type ProductError struct {
@@ -70,6 +73,19 @@ func readDb() (Db, error) {
 
 	if err != nil {
 		return nil, err
+	}
+
+	// We're going to check that no price is less than 1 kr.
+	// If that's the case we assume there's a user input error in the database
+	// and assume it's because they typed in kr.s when it shoud've been øres
+	for productName, product := range products {
+		if product.Cost <= MINIMUM_VALID_PRICE ||
+			product.SagioPrice <= MINIMUM_VALID_PRICE ||
+			product.NayaxPrice <= MINIMUM_VALID_PRICE ||
+			product.MobilepayPrice <= MINIMUM_VALID_PRICE {
+
+			return nil, ProductError{name: productName, cause: INVALID_PRICE}
+		}
 	}
 
 	return products, nil

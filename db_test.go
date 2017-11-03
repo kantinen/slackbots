@@ -164,3 +164,23 @@ func TestGetProductPrice(t *testing.T) {
 		t.Failed()
 	}
 }
+
+func TestInvalidPrice(t *testing.T) {
+	if SetupTest() != nil {
+		t.Failed()
+	}
+
+	setProductPrice("productA", 37)
+	db, err := readDb()
+	if err.Error() != "Invalid price:" {
+		t.Failed()
+	}
+
+	a, ok := db["productA"]
+	if !ok {
+		t.Failed()
+	}
+	if a.Cost != 1000 {
+		t.Failed()
+	}
+}
