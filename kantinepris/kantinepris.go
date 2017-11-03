@@ -1,4 +1,4 @@
-package kantinepris
+package main
 
 import (
   "strconv"
