@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-    api := slack.New("YOUR TOKEN HERE")
+    api := slack.New(os.Getenv("SLACK_API_TOKEN"))
     logger := log.New(os.Stdout, "slack-bot: ", log.Lshortfile|log.LstdFlags)
     slack.SetLogger(logger)
     api.SetDebug(true)
