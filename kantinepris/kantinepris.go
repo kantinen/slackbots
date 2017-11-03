@@ -9,6 +9,10 @@ type Money struct {
   err int
 }
 
+func Oere(oere int) Money {
+  return Money { oere, 0 }
+}
+
 func (m Money) String() string {
   n := m.n
   s := strconv.Itoa(n)

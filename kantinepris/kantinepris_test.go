@@ -5,7 +5,7 @@ import (
 )
 
 func TestSagio1(t *testing.T) {
-  m := Money { 900, 0 }
+  m := Oere(900)
   actual := m.SagioPrice().String()
   expected := "11.50"
   if (actual != expected) {
@@ -14,7 +14,7 @@ func TestSagio1(t *testing.T) {
 }
 
 func TestNayax1(t *testing.T) {
-  m := Money { 900, 0 }
+  m := Oere(900)
   actual := m.NayaxPrice().String()
   expected := "12.00"
   if (actual != expected) {
@@ -23,7 +23,7 @@ func TestNayax1(t *testing.T) {
 }
 
 func TestMobilePay1(t *testing.T) {
-  m := Money { 900, 0 }
+  m := Oere(900)
   actual := m.MobilePayPrice().String()
   expected := "12.50"
   if (actual != expected) {
