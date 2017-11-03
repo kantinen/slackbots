@@ -1,1 +1,6 @@
+# Vim Files <3
+*.swp
+*.swo
+
+# Binary output
 slackbots
