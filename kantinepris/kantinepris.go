@@ -9,8 +9,8 @@ type Money struct {
   err int
 }
 
-func Oere(oere int) Money {
-  return Money { oere, 0 }
+func Øre(øre int) Money {
+  return Money { øre, 0 }
 }
 
 func (m Money) String() string {
