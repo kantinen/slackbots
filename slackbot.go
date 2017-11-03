@@ -28,10 +28,15 @@ func main() {
             fmt.Println("Infos:", ev.Info)
             fmt.Println("Connection counter:", ev.ConnectionCount)
             // Replace #general with your Channel ID
-            rtm.SendMessage(rtm.NewOutgoingMessage("Hello world", "#general"))
+            rtm.SendMessage(rtm.NewOutgoingMessage("Hello world", "gogadget-test"))
 
         case *slack.MessageEvent:
-            fmt.Printf("Message: %v\n", ev)
+            if len(ev.Text) >= 9 && ev.Text[0:9] == "!set cost" {
+                handleSet(ev)
+            } else if len(ev.Text) >= 11 && ev.Text[0:11] == "!get prices" {
+                handleGet(ev)
+            }
+
 
         case *slack.PresenceChangeEvent:
             fmt.Printf("Presence Change: %v\n", ev)
@@ -55,4 +60,14 @@ func main() {
     // To run the update script
     cmd := exec.Command("./update.sh", "username", "command")
     cmd.Run()
+}
+
+func handleSet(ev *slack.MessageEvent) {
+    fmt.Println("Ran handleSet\n\n")
+    return
+}
+
+func handleGet(ev *slack.MessageEvent) {
+    fmt.Println("Ran handleGet\n\n")
+    return
 }
