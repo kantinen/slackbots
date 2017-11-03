@@ -4,8 +4,9 @@
 #   update.sh [username] [command]
 # Everything but the first two arguements are ignored
 
-
 set -e
+
+cd $KANTINE_DB
 
 commit_message="[${1}] $ ${2}"
 
