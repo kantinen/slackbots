@@ -22,7 +22,8 @@ const (
 
 const (
 	PRODUCT_MISSING = "Product missing"
-	INVALID_PRICE   = "Invalid price"
+	INVALID_PRICE   = "Price is too low (check database)"
+	PRODUCT_EXISTS  = "Product already exists"
 )
 
 type ProductError struct {
@@ -79,10 +80,10 @@ func readDb() (Db, error) {
 	// If that's the case we assume there's a user input error in the database
 	// and assume it's because they typed in kr.s when it shoud've been øres
 	for productName, product := range products {
-		if product.Cost <= MINIMUM_VALID_PRICE ||
-			product.SagioPrice <= MINIMUM_VALID_PRICE ||
-			product.NayaxPrice <= MINIMUM_VALID_PRICE ||
-			product.MobilepayPrice <= MINIMUM_VALID_PRICE {
+		if product.Cost < MINIMUM_VALID_PRICE ||
+			product.SagioPrice < MINIMUM_VALID_PRICE ||
+			product.NayaxPrice < MINIMUM_VALID_PRICE ||
+			product.MobilepayPrice < MINIMUM_VALID_PRICE {
 
 			return nil, ProductError{name: productName, cause: INVALID_PRICE}
 		}
@@ -93,7 +94,7 @@ func readDb() (Db, error) {
 
 func writeDb(products Db) error {
 	file_path := path.Join(os.Getenv("KANTINE_DB"), PRODUCT_DB_FILE)
-	file, err := os.Open(file_path)
+	file, err := os.OpenFile(file_path, os.O_WRONLY, os.ModeAppend)
 
 	if err != nil {
 		return err
@@ -130,6 +131,10 @@ func getProductPrice(name string) (Costs, error) {
 }
 
 func setProductPrice(name string, cost int) error {
+	if cost < MINIMUM_VALID_PRICE {
+		return ProductError{name: name, cause: INVALID_PRICE}
+	}
+
 	products, err := readDb()
 	if err != nil {
 		return err
@@ -145,6 +150,35 @@ func setProductPrice(name string, cost int) error {
 	product.SagioPrice = money.SagioPrice().n
 	product.NayaxPrice = money.NayaxPrice().n
 	product.MobilepayPrice = money.MobilePayPrice().n
+
+	products[name] = product
+
+	return writeDb(products)
+}
+
+func createProduct(name string, cost int) error {
+	if cost < MINIMUM_VALID_PRICE {
+		return ProductError{name: name, cause: INVALID_PRICE}
+	}
+
+	products, err := readDb()
+	if err != nil {
+		return err
+	}
+
+	product, ok := products[name]
+	if ok {
+		return ProductError{name: name, cause: PRODUCT_EXISTS}
+	}
+
+	product.Name = name
+	product.Cost = cost
+	money := Øre(cost)
+	product.SagioPrice = money.SagioPrice().n
+	product.NayaxPrice = money.NayaxPrice().n
+	product.MobilepayPrice = money.MobilePayPrice().n
+
+	products[name] = product
 
 	return writeDb(products)
 }
